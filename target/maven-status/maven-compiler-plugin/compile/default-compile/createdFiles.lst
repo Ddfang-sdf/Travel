@@ -1,4 +1,5 @@
 cn\itcast\travel\util\Md5Util.class
+cn\itcast\travel\web\servlet\BaseServlet.class
 cn\itcast\travel\util\DruidUtils.class
 cn\itcast\travel\web\servlet\wel_tipServlet.class
 cn\itcast\travel\dao\UserDao.class
@@ -9,6 +10,7 @@ cn\itcast\travel\util\MailUtils$1.class
 cn\itcast\travel\dao\impl\UserDaoImpl.class
 cn\itcast\travel\util\UuidUtil.class
 cn\itcast\travel\domain\Category.class
+cn\itcast\travel\web\servlet\UserServlet.class
 cn\itcast\travel\web\servlet\ActiveUserServlet.class
 cn\itcast\travel\domain\Seller.class
 cn\itcast\travel\web\servlet\CheckCodeServlet.class
