@@ -11,6 +11,7 @@ cn\itcast\travel\util\UuidUtil.class
 cn\itcast\travel\domain\Category.class
 cn\itcast\travel\web\servlet\UserServlet.class
 cn\itcast\travel\domain\Seller.class
+cn\itcast\travel\util\ErrorMsgHouse.class
 cn\itcast\travel\web\servlet\CheckCodeServlet.class
 cn\itcast\travel\web\filter\CharchaterFilter.class
 cn\itcast\travel\domain\RouteImg.class

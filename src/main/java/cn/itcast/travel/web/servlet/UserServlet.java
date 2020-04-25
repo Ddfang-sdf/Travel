@@ -4,6 +4,7 @@ import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.UserService;
 import cn.itcast.travel.service.impl.UserServiceImpl;
+import cn.itcast.travel.util.ErrorMsgHouse;
 import cn.itcast.travel.util.ServletUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,8 +19,7 @@ import java.util.Map;
 @WebServlet("/user/*")
 public class UserServlet extends UserBaseServlet {
     private UserService service = new UserServiceImpl();
-    private ResultInfo info = new ResultInfo();
-    private ObjectMapper mapper = new ObjectMapper();
+    private ResultInfo info;
     private String json = null;
     /**
      * 欢迎信息显示
@@ -35,7 +35,8 @@ public class UserServlet extends UserBaseServlet {
         HttpSession session = req.getSession(false);
         if (session == null) return;
         User user = (User) session.getAttribute("user");
-        json = ServletUtils.setInfo(mapper, info, true, user, "");
+        info = ServletUtils.getInfo(true,user,"");
+        json = ServletUtils.getJson(info);
         resp.getWriter().write(json);
 
 
@@ -59,10 +60,11 @@ public class UserServlet extends UserBaseServlet {
 
         //封装JavaBean
         Map<String, String[]> map = req.getParameterMap();
-        User userBean = ServletUtils.getBean(map);
+        User userBean = (User) ServletUtils.getBean(map);
         //session为null
         if (session == null) {
-            json = ServletUtils.setInfo(mapper, info, false, null, "验证码已失效，点击验证码更换！");
+            info = ServletUtils.getInfo(false,null, ErrorMsgHouse.ckCodeInvalidMsg);
+            json = ServletUtils.getJson(info);
             resp.getWriter().write(json);
             return;
         }
@@ -77,7 +79,8 @@ public class UserServlet extends UserBaseServlet {
         //校验验证码
         if (!ServletUtils.ck_code(checkcode_server, check)) {
             //返回false，验证码错误或为空
-            json = ServletUtils.setInfo(mapper, info, false, null, "验证码错误");
+            info = ServletUtils.getInfo(false,null,ErrorMsgHouse.ckCodeErrorMsg);
+            json = ServletUtils.getJson(info);
             resp.getWriter().write(json);
             return;
         }//校验通过
@@ -85,7 +88,8 @@ public class UserServlet extends UserBaseServlet {
         User user = service.userLogin(userBean);
         if (user == null){
             //登录失败
-            json = ServletUtils.setInfo(mapper,info,false,null,"用户名或密码错误！");
+            info = ServletUtils.getInfo(false,null,ErrorMsgHouse.loginErrorMsg);
+            json = ServletUtils.getJson(info);
             resp.getWriter().write(json);
             return;
         }
@@ -99,7 +103,8 @@ public class UserServlet extends UserBaseServlet {
             session.setAttribute("autoLogin", true);
         else
             session.setAttribute("autoLogin", false);
-        json = ServletUtils.setInfo(mapper,info,true,null,"");
+        info = ServletUtils.getInfo(true,null,"");
+        json = ServletUtils.getJson(info);
         resp.getWriter().write(json);
 
     }
@@ -127,11 +132,13 @@ public class UserServlet extends UserBaseServlet {
 
             User user = service.userLogin(_user);
             if (user != null){
-                json = ServletUtils.setInfo(mapper,info,true,null,"");
+                info = ServletUtils.getInfo(true,null,"");
+                json = ServletUtils.getJson(info);
                 session.setAttribute("user",user);
                 resp.getWriter().write(json);
             }else{
-                json = ServletUtils.setInfo(mapper,info,false,null,"您还未登录，请先登录！");
+                info = ServletUtils.getInfo(false,null,ErrorMsgHouse.loginTipMsg);
+                json = ServletUtils.getJson(info);
                 resp.getWriter().write(json);
             }
         }
@@ -157,7 +164,8 @@ public class UserServlet extends UserBaseServlet {
         //将session中的验证码删除
         session.removeAttribute("CHECKCODE_SERVER");
         if (checkcode_server == null) {
-            json = ServletUtils.setInfo(mapper, info, false, null, "验证码已失效，请点击更换");
+            info = ServletUtils.getInfo(false,null,ErrorMsgHouse.ckCodeInvalidMsg);
+            json = ServletUtils.getJson(info);
             //响应
             resp.getWriter().write(json);
             return;
@@ -168,23 +176,26 @@ public class UserServlet extends UserBaseServlet {
         //校验验证码
         if (!ServletUtils.ck_code(checkcode_server, check)) {
             //验证码错误，设置响应对象
-            json = ServletUtils.setInfo(mapper, info, false, null, "验证码错误");
+            info = ServletUtils.getInfo(false,null,ErrorMsgHouse.ckCodeErrorMsg);
+            json = ServletUtils.getJson(info);
             //响应
             resp.getWriter().write(json);
             return;
         }
         //获取用户数据，封装JavaBean
         Map<String, String[]> map = req.getParameterMap();
-        User user = ServletUtils.getBean(map);
+        User user = (User) ServletUtils.getBean(map);
         //调用业务层方法注册用户
         if (!service.Userregist(user)) {
             //注册失败
-            json = ServletUtils.setInfo(mapper, info, false, null, "该用户名已存在");
+            info = ServletUtils.getInfo(false,null,ErrorMsgHouse.nameExistMsg);
+            json = ServletUtils.getJson(info);
             resp.getWriter().write(json);
             return;
         }
         //注册成功
-        json = ServletUtils.setInfo(mapper, info, true, null, "");
+        info = ServletUtils.getInfo(true,null,"");
+        json = ServletUtils.getJson(info);
         //响应
         resp.getWriter().write(json);
     }
@@ -201,13 +212,13 @@ public class UserServlet extends UserBaseServlet {
             throws ServletException, IOException {
         String code = req.getParameter("code");
         if (code == null || "".equals(code)) {
-            resp.getWriter().write("激活码丢失，请重新在邮箱点击激活！");
+            resp.getWriter().write(ErrorMsgHouse.activeCodeLoseMsg);
             return;
         }
 
         if (!service.userActive(code)) {
             //激活失败
-            resp.getWriter().write("激活码丢失，请重新在邮箱点击激活！");
+            resp.getWriter().write(ErrorMsgHouse.activeCodeLoseMsg);
             return;
         }
         //激活成功
@@ -217,7 +228,8 @@ public class UserServlet extends UserBaseServlet {
     public void exit(HttpServletRequest req,HttpServletResponse resp)
             throws ServletException,IOException{
         req.getSession().invalidate();
-        json = ServletUtils.setInfo(mapper,info,true,null,"");
+        info = ServletUtils.getInfo(true,null,"");
+        json = ServletUtils.getJson(info);
         resp.getWriter().write(json);
 
     }

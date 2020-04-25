@@ -10,42 +10,55 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 public class ServletUtils {
+    private static ObjectMapper mapper;
+    private static String json;
+    private static ResultInfo info;
+
+    /**
+     *
+     * @param flag
+     * @param data
+     * @param Msg
+     * @return
+     */
+    public static ResultInfo getInfo(boolean flag,Object data,String Msg){
+        info = new ResultInfo();
+        info.setFlag(flag);
+        info.setData(data);
+        info.setErrorMsg(Msg);
+        return info;
+    }
+
+    /**
+     * 将数据序列化为json字符串
+     * @param info
+     * @return
+     * @throws JsonProcessingException
+     */
+    public static String getJson(Object info) throws JsonProcessingException {
+        mapper = new ObjectMapper();
+        json = mapper.writeValueAsString(info);
+        return json;
+    }
     /**
      * 封装用户数据成JavaBean对象
      * @param map
      * @return
      */
-    public static User getBean(Map<String, String[]> map) {
-        User user = new User();
+    public static Object getBean(Map<String, String[]> map) {
+        Object object = new User();
         try {
-            BeanUtils.populate(user,map);
+            BeanUtils.populate(object,map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
 
-        return user;
+        return object;
     }
 
-    /**
-     * @param mapper
-     * @param info
-     * @param flag
-     * @param errorMsg
-     */
-    public static String setInfo(ObjectMapper mapper, ResultInfo info, boolean flag, Object data, String errorMsg) throws JsonProcessingException {
 
-        info.setFlag(flag);
-
-        if (data != null)
-            info.setData(data);
-
-        if (errorMsg != null && !"".equals(errorMsg))
-            info.setErrorMsg(errorMsg);
-
-        return mapper.writeValueAsString(info);
-    }
 
     /**
      * 校验验证码
