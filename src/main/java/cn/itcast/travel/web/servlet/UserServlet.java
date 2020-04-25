@@ -225,6 +225,13 @@ public class UserServlet extends UserBaseServlet {
         resp.sendRedirect(req.getContextPath() + "/active_ok.html");
     }
 
+    /**
+     * 退出登陆操作
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     public void exit(HttpServletRequest req,HttpServletResponse resp)
             throws ServletException,IOException{
         req.getSession().invalidate();
