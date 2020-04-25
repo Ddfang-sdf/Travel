@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @WebServlet("/user/*")
-public class UserServlet extends BaseServlet {
+public class UserServlet extends UserBaseServlet {
     private UserService service = new UserServiceImpl();
     private ResultInfo info = new ResultInfo();
     private ObjectMapper mapper = new ObjectMapper();
@@ -213,6 +212,14 @@ public class UserServlet extends BaseServlet {
         }
         //激活成功
         resp.sendRedirect(req.getContextPath() + "/active_ok.html");
+    }
+
+    public void exit(HttpServletRequest req,HttpServletResponse resp)
+            throws ServletException,IOException{
+        req.getSession().invalidate();
+        json = ServletUtils.setInfo(mapper,info,true,null,"");
+        resp.getWriter().write(json);
+
     }
 
 }

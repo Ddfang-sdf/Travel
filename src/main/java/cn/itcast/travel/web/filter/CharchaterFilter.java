@@ -19,7 +19,7 @@ public class CharchaterFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         //设置编码格式
         req.setCharacterEncoding("utf-8");
-        resp.setContentType("text/html;charset=utf-8");
+        resp.setContentType("application/json;charset=utf-8");
         //放行
         chain.doFilter(request, response);
     }
