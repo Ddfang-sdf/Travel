@@ -26,6 +26,11 @@ public class TestUserService {
         user.setPassword("ssssss");
         System.out.println(service.userLogin(user));
     }
+    @Test
+    public void testIfNull(){
+
+       
+    }
 
 
 }

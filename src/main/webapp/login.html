@@ -14,23 +14,28 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <!--导入angularJS文件-->
-    <script src="js/angular.min.js"></script>
+<!--      &lt;!&ndash;导入angularJS文件&ndash;&gt;-->
+<!--    <script src="js/angular.min.js"></script>-->
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
 	<script>
 		$(function () {
-			//页面加载完成后，应该向服务器发送请求，检查session域中是否存在user对象。
-			$.get("UserLoginServlet",function (data) {
-				if (data.flag)
+
+			$.post("user/autoLogin",null,function (data) {
+
+
+				if (data.flag){
 					location.href="index.html";
+				}
 			});
+
 			$("#login").click(function () {
 
-				$.post("UserLoginServlet",$("#loginForm").serialize(),function (data) {
+				$.post("user/login",$("#loginForm").serialize(),function (data) {
 					//data{flag:true/false,errorMsg:"..."}
 					if (data.flag){
 						//登陆成功
+						// alert(data.flag);
 						location.href="index.html";
 					}else {
 						//登录失败

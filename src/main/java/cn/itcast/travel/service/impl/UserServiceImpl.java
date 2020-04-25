@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
             return false;
         user.setStatus("N");
         user.setCode(UuidUtil.getUuid());
-        MailUtils.sendMail(user.getEmail(),"<a href = 'http://localhost/travel/ActiveUserServlet?code="+user.getCode()+"'>激活</a>","激活");
+        MailUtils.sendMail(user.getEmail(),"<a href = 'http://localhost/travel/user/active?code="+user.getCode()+"'>激活</a>","激活");
         return dao.regist(user);
     }
 

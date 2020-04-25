@@ -1,9 +1,8 @@
+D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\UserServlet.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\Seller.java
-D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\wel_tipServlet.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\User.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\util\JedisUtil.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\Route.java
-D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\RegistUserServlet.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\util\DruidUtils.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\util\Md5Util.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\RouteImg.java
@@ -12,6 +11,7 @@ D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\test\TestUserService.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\dao\UserDao.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\ResultInfo.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\dao\impl\UserDaoImpl.java
+D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\BaseServlet.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\Favorite.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\util\UuidUtil.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\util\MailUtils.java
@@ -20,5 +20,3 @@ D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\service\UserService.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\domain\Category.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\CheckCodeServlet.java
 D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\filter\CharchaterFilter.java
-D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\UserLoginServlet.java
-D:\IDEA_projects\travel\src\main\java\cn\itcast\travel\web\servlet\ActiveUserServlet.java

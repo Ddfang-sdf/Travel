@@ -122,7 +122,7 @@
                 */
                 if (ck_username() && ck_passwd() && ck_email() && ck_name() && ck_telephone()
                     && ck_birthday() && ck_check())
-                    $.post("registUserServlet", $(this).serialize(), function (data) {
+                    $.post("user/regist", $(this).serialize(), function (data) {
                         //处理服务器相应的数据
                         if (data.flag){
                             //注册成功了
