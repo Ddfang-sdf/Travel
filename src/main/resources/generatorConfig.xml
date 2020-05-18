@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--生成器-->
+<generatorConfiguration>
+    <!--配置-->
+    <context id="mysql" targetRuntime="Mybatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!--是否取消注释-->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库连接配置-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql:///travel?serverTimezone=UTC" userId="root" password="123456">
+        </jdbcConnection>
+        <!--设置对应的java类型 int 变成Integer-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--模型生成 domain文件-->
+        <javaModelGenerator targetPackage="com.sdf.travel.domain" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <!--返回的数据清理前后的空格-->
+            <property name="trimStrings" value="false"/>
+        </javaModelGenerator>
+        <!--mapper文件的路径-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources"></sqlMapGenerator>
+        <!--dao接口的路径-->
+        <javaClientGenerator type="XMLMapper" targetPackage="com.sdf.travel.dao" targetProject="./src/main/java">
+
+        </javaClientGenerator>
+      <!--生成什么表-->
+        <table tableName="tab_category" domainObjectName="Category"></table>
+        <table tableName="tab_favorite" domainObjectName="Favorite"></table>
+        <table tableName="tab_route" domainObjectName="Route"></table>
+        <table tableName="tab_route_img" domainObjectName="RouteImg"></table>
+        <table tableName="tab_user" domainObjectName="User"></table>
+        <table tableName="tab_seller" domainObjectName="Seller"></table>
+    </context>
+</generatorConfiguration>
