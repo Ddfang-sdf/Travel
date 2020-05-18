@@ -4,27 +4,34 @@ import com.sdf.travel.domain.User;
 import com.sdf.travel.domain.UserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper {
-    long countByExample(UserExample example);
+    /**
+     * 根据用户名查询用户是否存在
+     * @param username
+     * @return
+     */
+    User findUserByUsername(String username);
 
-    int deleteByExample(UserExample example);
+    /**
+     * 插入一条user
+     * @param user
+     * @return
+     */
+    Boolean InsertUserByUser(User user);
 
-    int deleteByPrimaryKey(Integer uid);
+    /**
+     * 根据code查询user
+     * @param code
+     * @return
+     */
+    @Select("select * from tab_user where code = #{code}")
+    User findUserByCode(String code);
 
-    int insert(User record);
-
-    int insertSelective(User record);
-
-    List<User> selectByExample(UserExample example);
-
-    User selectByPrimaryKey(Integer uid);
-
-    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
-
-    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
+    @Update("update tab_user set status = 'Y'")
+    boolean updateStatusByUser(User user);
 }

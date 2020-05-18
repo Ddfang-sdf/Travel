@@ -1,5 +1,7 @@
 package com.sdf.travel.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class User {
@@ -11,6 +13,23 @@ public class User {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", sex='" + sex + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", status='" + status + '\'' +
+                ", code='" + code + '\'' +
+                '}';
+    }
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     private String sex;
