@@ -32,8 +32,8 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.sdf.travel.domain"/>
-        <property name="configuration" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="classpath:mapper"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
     <!--扫描dao中mapper-->
     <mybatis-spring:scan base-package="com.sdf.travel.dao"/>

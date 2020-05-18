@@ -1,11 +1,6 @@
 package com.sdf.travel.domain;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-
-@Component
-public class RouteImg implements Serializable {
+public class RouteImg {
     private Integer rgid;
 
     private Integer rid;
@@ -44,15 +39,5 @@ public class RouteImg implements Serializable {
 
     public void setSmallpic(String smallpic) {
         this.smallpic = smallpic;
-    }
-
-    @Override
-    public String toString() {
-        return "RouteImg{" +
-                "rgid=" + rgid +
-                ", rid=" + rid +
-                ", bigpic='" + bigpic + '\'' +
-                ", smallpic='" + smallpic + '\'' +
-                '}';
     }
 }

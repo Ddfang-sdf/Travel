@@ -1,12 +1,8 @@
 package com.sdf.travel.domain;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
 import java.util.Date;
 
-@Component
-public class User implements Serializable {
+public class User {
     private Integer uid;
 
     private String username;
@@ -105,21 +101,5 @@ public class User implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid=" + uid +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", birthday=" + birthday +
-                ", sex='" + sex + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
-                ", code='" + code + '\'' +
-                '}';
     }
 }

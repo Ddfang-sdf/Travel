@@ -1,11 +1,6 @@
 package com.sdf.travel.domain;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-
-@Component
-public class FavoriteKey implements Serializable {
+public class FavoriteKey {
     private Integer rid;
 
     private Integer uid;

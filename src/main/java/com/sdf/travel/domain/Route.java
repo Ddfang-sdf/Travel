@@ -1,11 +1,6 @@
 package com.sdf.travel.domain;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-
-@Component
-public class Route implements Serializable {
+public class Route {
     private Integer rid;
 
     private String rname;
@@ -124,23 +119,5 @@ public class Route implements Serializable {
 
     public void setSourceid(String sourceid) {
         this.sourceid = sourceid;
-    }
-
-    @Override
-    public String toString() {
-        return "Route{" +
-                "rid=" + rid +
-                ", rname='" + rname + '\'' +
-                ", price=" + price +
-                ", routeintroduce='" + routeintroduce + '\'' +
-                ", rflag='" + rflag + '\'' +
-                ", rdate='" + rdate + '\'' +
-                ", isthemetour='" + isthemetour + '\'' +
-                ", count=" + count +
-                ", cid=" + cid +
-                ", rimage='" + rimage + '\'' +
-                ", sid=" + sid +
-                ", sourceid='" + sourceid + '\'' +
-                '}';
     }
 }

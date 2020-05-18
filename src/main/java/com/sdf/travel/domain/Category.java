@@ -1,19 +1,7 @@
 package com.sdf.travel.domain;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-@Component
-public class Category implements Serializable {
+public class Category {
     private Integer cid;
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "cid=" + cid +
-                ", cname='" + cname + '\'' +
-                '}';
-    }
 
     private String cname;
 

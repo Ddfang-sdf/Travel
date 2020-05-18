@@ -1,11 +1,6 @@
 package com.sdf.travel.domain;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-
-@Component
-public class Seller implements Serializable {
+public class Seller {
     private Integer sid;
 
     private String sname;
@@ -44,15 +39,5 @@ public class Seller implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public String toString() {
-        return "Seller{" +
-                "sid=" + sid +
-                ", sname='" + sname + '\'' +
-                ", consphone='" + consphone + '\'' +
-                ", address='" + address + '\'' +
-                '}';
     }
 }
