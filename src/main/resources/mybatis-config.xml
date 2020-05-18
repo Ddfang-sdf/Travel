@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 开启下划线映射成实体类的驼峰命名法 -->
+        <!-- <setting name="mapUnderscoreToCamelCase" value="true" /> -->
+
+        <!-- 开启延迟加载功能 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- aggressiveLazylaoding 翻译为 :积极的延迟加载 默认值为 false
+        启用后，任何方法调用都将加载对象的所有惰性属性。否则，将按需加载每个属性
+        有的时候mybatis版本更新，默认值可能会改变，所以最好把默认值的也写出来。
+        -->
+        <setting name="aggressiveLazyLoading" value="true"/>
+
+        <!-- 全局性地开启所有映射器配置文件中已配置的任何缓存。 -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+</configuration>

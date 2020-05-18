@@ -7,8 +7,6 @@ import java.io.Serializable;
 public class Category implements Serializable {
     private Integer cid;
 
-    private String cname;
-
     @Override
     public String toString() {
         return "Category{" +
@@ -16,6 +14,8 @@ public class Category implements Serializable {
                 ", cname='" + cname + '\'' +
                 '}';
     }
+
+    private String cname;
 
     public Integer getCid() {
         return cid;

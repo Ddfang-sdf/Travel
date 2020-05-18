@@ -2,19 +2,13 @@ package com.sdf.travel.domain;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @Component
-public class FavoriteKey {
+public class FavoriteKey implements Serializable {
     private Integer rid;
 
     private Integer uid;
-
-    @Override
-    public String toString() {
-        return "FavoriteKey{" +
-                "rid=" + rid +
-                ", uid=" + uid +
-                '}';
-    }
 
     public Integer getRid() {
         return rid;

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
 @Component
 public class UserExample {
-
     protected String orderByClause;
 
     protected boolean distinct;
