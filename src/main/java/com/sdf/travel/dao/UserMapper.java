@@ -34,4 +34,12 @@ public interface UserMapper {
 
     @Update("update tab_user set status = 'Y'")
     boolean updateStatusByUser(User user);
+
+    /**
+     * 根据用户名密码查询用户
+     * @param user
+     * @return
+     */
+    @Select("select * from tab_user where username = #{username} and password = #{password}")
+    User findUserByAccount(User user);
 }

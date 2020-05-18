@@ -23,7 +23,10 @@ public class ServletUtil {
 
     }
 
-    public static String getJson(ResultInfo info){
+
+
+    public static String getJson(Object info){
+
 
         String json;
 

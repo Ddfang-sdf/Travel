@@ -60,4 +60,41 @@ public class UserServiceImpl implements UserService {
 
         return mapper.updateStatusByUser(user);
     }
+
+    /**
+     * 判断用户是否存在
+     * @param username
+     * @return
+     */
+    @Override
+    public Boolean userExist(String username) {
+
+        User user = mapper.findUserByUsername(username);
+
+        return user != null ? true:false;
+    }
+
+    /**
+     * 判断用户是否激活
+     * @param username
+     * @return
+     */
+    @Override
+    public boolean userIsActive(String username) {
+
+        User user = mapper.findUserByUsername(username);
+
+        return "Y".equals(user.getStatus());
+    }
+
+    /**
+     * 用户登陆
+     * @param user
+     * @return
+     */
+    @Override
+    public User userLogin(User user) {
+
+        return mapper.findUserByAccount(user);
+    }
 }

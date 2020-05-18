@@ -16,6 +16,10 @@ public class ErrorMsgHouse {
 
     public static final String activeCodeLoseMsg = "激活码丢失，请重新在邮箱点击激活！";
 
+    public static final String noRegistErrorMsg = "您的用户名还未注册，请先注册！";
+
+    public static final String noActiveErrorMsg = "您还未激活，请先激活！";
+
 
 
 }

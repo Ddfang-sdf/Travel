@@ -59,11 +59,121 @@ public class UserController {
 
     }
 
+    /**
+     * 登陆
+     * 1、判断用户是否存在
+     * 2、判断用户是否激活
+     * 3、保存用户session
+     * 4、响应到首页
+     */
     @RequestMapping("/login")
-    public void login(){
+    public void login(User user,String check,String auto_login,HttpServletResponse resp,HttpSession session) throws IOException {
+
+        resp.setContentType("application/json;charset=utf-8");
+
+        if (!ckeckCKCode(session,resp,check)) return;
+
+        if (!service.userExist(user.getUsername())) {
+            info = ServletUtil.getInfo(false,null,ErrorMsgHouse.noRegistErrorMsg);
+            json = ServletUtil.getJson(info);
+            resp.getWriter().write(json);
+            return;
+        }
+
+        if (!service.userIsActive(user.getUsername())){
+            info = ServletUtil.getInfo(false,null,ErrorMsgHouse.noActiveErrorMsg);
+            json = ServletUtil.getJson(info);
+            resp.getWriter().write(json);
+            return;
+        }
+
+        User userLogin = service.userLogin(user);
+
+        if (userLogin == null) {
+            info = ServletUtil.getInfo(false,null,ErrorMsgHouse.loginErrorMsg);
+            json = ServletUtil.getJson(info);
+            resp.getWriter().write(json);
+            return;
+        }else {
+
+            info = ServletUtil.getInfo(true,null,"");
+            json = ServletUtil.getJson(info);
+            resp.getWriter().write(json);
+
+        }
+
+        //判断用户是否允许自动登陆
+        if (auto_login != null && !"".equals(auto_login)){
+
+            session.setAttribute("user",userLogin);
+
+            session.setAttribute("autoLogin",true);
+        }else {
+
+            session.setAttribute("user",userLogin);
+
+            session.setAttribute("autoLogin",false);
+        }
+
+
 
     }
 
+    /**
+     * 校验用户是否自动登陆
+     * @param session
+     * @param resp
+     * @throws IOException
+     */
+    @RequestMapping("/autoLogin")
+    public void autoLogin(HttpSession session,HttpServletResponse resp) throws IOException {
+
+        resp.setContentType("application/json;charset=utf-8");
+
+        if (session.getAttribute("user") == null) return;
+
+        if (!(Boolean) session.getAttribute("autoLogin")) return;
+
+        info = ServletUtil.getInfo(true,null,"");
+
+        json = ServletUtil.getJson(info);
+
+        resp.getWriter().write(json);
+
+    }
+
+    @RequestMapping("/welTip")
+    public void weiTip(HttpSession session,HttpServletResponse resp) throws IOException {
+
+        resp.setContentType("application/json;charset=utf-8");
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) return;
+
+        info = ServletUtil.getInfo(true,user.getName(),"");
+
+        json = ServletUtil.getJson(info);
+
+        resp.getWriter().write(json);
+
+    }
+
+    @RequestMapping("/exit")
+    public void exit(HttpSession session,HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json;charset=utf-8");
+
+        session.removeAttribute("user");
+
+        session.removeAttribute("autoLogin");
+
+        info = ServletUtil.getInfo(true,null,"");
+
+        json = ServletUtil.getJson(info);
+
+        resp.getWriter().write(json);
+
+    }
 
     private Boolean ckeckCKCode(HttpSession session, HttpServletResponse resp, String check) throws IOException {
         //验证码校验
