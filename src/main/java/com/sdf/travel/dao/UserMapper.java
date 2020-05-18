@@ -4,7 +4,9 @@ import com.sdf.travel.domain.User;
 import com.sdf.travel.domain.UserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper {
     long countByExample(UserExample example);
 
