@@ -27,19 +27,70 @@
                             <li class="threeword"><a href="javascript:;">末页</a></li>*/
         $(function () {
             var search = location.search;
+            var cid = search.split("=")[1];
+            load(cid);
+        });
 
-            $.get("route/pageQuery"+search,function (data) {
+        function load(cid,currentPage) {
+            $.get("route/pageQuery",{cid:cid,currentPage:currentPage},function (data) {
                 $("#totalCount").text(data.totalCount);
                 $("#totalPage").text(data.totalPage);
 
-                var lis = '<li><a href="">首页</a></li>';
-                lis += '<li class="threeword"><a href="#">上一页</a></li>';
-                for (var i = 1; i < data.totalPage; i++) {
-                    var li = '<li><a href="#">'+i+'</a></li>'
+                var lis = '<li onclick="javascript:load('+cid+')"><a href="javascript:void(0)">首页</a></li>';
+
+                var beforeNum = data.currentPage - 1;
+                if(beforeNum <= 0)
+                    beforeNum = 1;
+
+
+                lis += '<li onclick="javascript:load('+cid+','+beforeNum+')" class="threeword"><a href="javascript:;">上一页</a></li>';
+
+                var begin;
+                var end;
+
+                if (data.totalPage < 10){
+                    begin = 1;
+                    end = data.totalPage;
+                }else{
+                    begin = data.currentPage -5;
+                    end = data.currentPage + 4;
+
+                    if (begin < 1){
+                        begin = 1;
+                        end = begin + 9;
+                    }
+
+                    if (end > data.totalPage){
+                        end = data.totalPage;
+                        begin = end - 9;
+                    }
+                }
+
+                for (var i = begin; i <= end; i++) {
+                    if (data.currentPage == i){
+                        var li = '<li class="curPage" onclick="javascript:load('+cid+','+i+')"><a href="javascript:void(0)">'+i+'</a></li>'
+                    }else{
+
+                        var li = '<li onclick="javascript:load('+cid+','+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }
                     lis += li;
                 }
-                lis += '<li class="threeword"><a href="javascript:;">下一页</a></li>';
-                lis += '<li class="threeword"><a href="javascript:;">尾页</a></li>'
+
+                /*for (var i = 1; i <= data.totalPage; i++) {
+                    if (data.currentPage == i){
+                        var li = '<li class="curPage" onclick="javascript:load('+cid+','+i+')"><a href="javascript:void(0)">'+i+'</a></li>'
+                    }else{
+
+                        var li = '<li onclick="javascript:load('+cid+','+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }
+                    lis += li;
+                }*/
+
+                var afterNum = data.currentPage + 1;
+                if(afterNum >= data.totalPage)
+                    afterNum = data.totalPage;
+                lis += '<li onclick="javascript:load('+cid+','+afterNum+')" class="threeword"><a href="javascript:;">下一页</a></li>';
+                lis += '<li onclick="javascript:load('+cid+','+data.totalPage+')" class="threeword"><a href="javascript:;">尾页</a></li>'
                 $("#pageNum").html(lis);
 
                 /*      <li>
@@ -63,27 +114,29 @@
                 for (var i = 0; i < data.list.length; i++) {
                     var route = data.list[i];
                     var li = '<li>\n' +
-        '                            <div class="img"><img src="'+route.rimage+'" style="width: 299px"></div>\n' +
-        '                            <div class="text1">\n' +
-        '                                <p>'+route.rname+'</p>\n' +
-        '                                <br/>\n' +
-        '                                <p>'+route.routeIntroduce+'</p>\n' +
-        '                            </div>\n' +
-        '                            <div class="price">\n' +
-        '                                <p class="price_num">\n' +
-        '                                    <span>&yen;</span>\n' +
-        '                                    <span>'+route.price+'</span>\n' +
-        '                                    <span>起</span>\n' +
-        '                                </p>\n' +
-        '                                <p><a href="route_detail.html">查看详情</a></p>\n' +
-        '                            </div>\n' +
-        '                        </li>';
+                        '                            <div class="img"><img src="'+route.rimage+'" style="width: 299px"></div>\n' +
+                        '                            <div class="text1">\n' +
+                        '                                <p>'+route.rname+'</p>\n' +
+                        '                                <br/>\n' +
+                        '                                <p>'+route.routeIntroduce+'</p>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="price">\n' +
+                        '                                <p class="price_num">\n' +
+                        '                                    <span>&yen;</span>\n' +
+                        '                                    <span>'+route.price+'</span>\n' +
+                        '                                    <span>起</span>\n' +
+                        '                                </p>\n' +
+                        '                                <p><a href="route_detail.html">查看详情</a></p>\n' +
+                        '                            </div>\n' +
+                        '                        </li>';
                     ris += li;
                 }
                 $("#route").html(ris);
 
+                window.scrollTo(0,0);
             });
-        });
+
+        }
 
     </script>
 </head>
