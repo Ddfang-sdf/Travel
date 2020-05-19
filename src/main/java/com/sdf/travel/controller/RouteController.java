@@ -35,10 +35,8 @@ public class RouteController {
 
         resp.setContentType("application/json;charset=utf-8");
 
-
-
-        rname = new String(rname.getBytes("ISO8859-1"),"utf-8");
-
+        if (rname != null)
+            rname = new String(rname.getBytes("ISO8859-1"),"utf-8");
 
         if (cid == null) {
 
