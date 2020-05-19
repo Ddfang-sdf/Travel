@@ -33,8 +33,7 @@ public class CategoryController {
         if (categories.size() == 0)
             throw new RuntimeException("服务器正在维护");
 
-        info = ServletUtil.getInfo(true,categories,"");
-        json = ServletUtil.getJson(info);
+        json = ServletUtil.getJson(categories);
         resp.getWriter().write(json);
     }
 

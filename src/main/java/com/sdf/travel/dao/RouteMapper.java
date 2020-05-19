@@ -4,27 +4,15 @@ import com.sdf.travel.domain.Route;
 import com.sdf.travel.domain.RouteExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface RouteMapper {
-    long countByExample(RouteExample example);
 
-    int deleteByExample(RouteExample example);
+    @Select("select count(*) from tab_route where cid = #{cid}")
+    Long findCount(Integer cid);
 
-    int deleteByPrimaryKey(Integer rid);
-
-    int insert(Route record);
-
-    int insertSelective(Route record);
-
-    List<Route> selectByExample(RouteExample example);
-
-    Route selectByPrimaryKey(Integer rid);
-
-    int updateByExampleSelective(@Param("record") Route record, @Param("example") RouteExample example);
-
-    int updateByExample(@Param("record") Route record, @Param("example") RouteExample example);
-
-    int updateByPrimaryKeySelective(Route record);
-
-    int updateByPrimaryKey(Route record);
+    @Select("select * from tab_route where cid = #{cid} limit #{start} ,#{pageSize}")
+    List<Route> findAllByCid(@Param("cid") Integer cid,@Param("start") Integer start,@Param("pageSize") Integer pageSize);
 }
