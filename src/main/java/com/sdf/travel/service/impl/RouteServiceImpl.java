@@ -19,12 +19,12 @@ public class RouteServiceImpl implements RouteService {
     private PageBean<Route> pageBean;
 
     @Override
-    public PageBean<Route> getPageBean(Integer currentPage, Integer pageSize, Integer cid) {
+    public PageBean<Route> getPageBean(Integer currentPage, Integer pageSize, Integer cid,String rname) {
 
         if (cid == null || pageSize == null || currentPage == null)
             throw new RuntimeException("传入参数不能为空");
         //封装总记录数
-        Long count = mapper.findCount(cid);
+        Long count = mapper.findCount(cid,"%"+rname+"%");
 
         if (count == null) return null;
 
@@ -33,7 +33,7 @@ public class RouteServiceImpl implements RouteService {
         //封装数据
         Integer start = (currentPage-1)*pageSize;
 
-        List<Route> allByCid = mapper.findAllByCid(cid, start, pageSize);
+        List<Route> allByCid = mapper.findAllByCid(cid, start, pageSize,"%"+rname+"%");
 
         if (allByCid == null || allByCid.size() == 0) return null;
 

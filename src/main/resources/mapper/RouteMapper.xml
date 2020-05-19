@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sdf.travel.dao.RouteMapper">
 
+    <!--Long findCount(Integer cid);-->
+    <select id="findCount" resultType="java.lang.Long">
+        select count(*) from tab_route
+        <where>
+            <if test="cid != null ">
+                and cid = #{cid}
+            </if>
+            <if test="rname != null">
+                and rname like #{rname}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="route" type="com.sdf.travel.domain.Route">
+
+    </resultMap>
+    <!--List<Route> findAllByCid(@Param("cid") Integer cid,@Param("start") Integer start,@Param("pageSize") Integer pageSize);-->
+    <select id="findAllByCid" resultMap="route">
+        select * from tab_route
+        <where>
+            and cid = #{cid}
+            <if test="rname != null">
+                and rname like #{rname}
+            </if>
+            limit #{start} , #{pageSize}
+        </where>
+    </select>
 </mapper>

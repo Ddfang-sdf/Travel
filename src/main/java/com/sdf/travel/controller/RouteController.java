@@ -31,9 +31,14 @@ public class RouteController {
      * @param resp
      */
     @RequestMapping("/pageQuery")
-    public void pageQuery(Integer currentPage,Integer pageSize,Integer cid,HttpServletResponse resp) throws IOException {
+    public void pageQuery(Integer currentPage,Integer pageSize,Integer cid,String rname,HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json;charset=utf-8");
+
+
+
+        rname = new String(rname.getBytes("ISO8859-1"),"utf-8");
+
 
         if (cid == null) {
 
@@ -44,7 +49,7 @@ public class RouteController {
 
         if (currentPage == null) currentPage = 1;
 
-        PageBean<Route> pageBean = service.getPageBean(currentPage, pageSize, cid);
+        PageBean<Route> pageBean = service.getPageBean(currentPage, pageSize, cid,rname);
         String json = ServletUtil.getJson(pageBean);
 
         resp.getWriter().write(json);
