@@ -6,4 +6,6 @@ import com.sdf.travel.domain.Route;
 public interface RouteService {
 
     PageBean<Route> getPageBean(Integer currentPage,Integer pageSize,Integer cid,String rname);
+
+    Route findDetial(Integer rid);
 }

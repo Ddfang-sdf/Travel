@@ -7,12 +7,14 @@ import com.sdf.travel.util.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
 @Controller
+@ResponseBody
 @RequestMapping("/category")
 public class CategoryController {
 
@@ -24,7 +26,7 @@ public class CategoryController {
     private String json;
 
     @RequestMapping("/findAll")
-    public void findAll(HttpServletResponse resp) throws IOException {
+    public List<Category> findAll(HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json;charset=utf-8");
 
@@ -33,8 +35,8 @@ public class CategoryController {
         if (categories.size() == 0)
             throw new RuntimeException("服务器正在维护");
 
-        json = ServletUtil.getJson(categories);
-        resp.getWriter().write(json);
+        return categories;
+
     }
 
 }

@@ -8,6 +8,7 @@ import com.sdf.travel.util.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
+@ResponseBody
 public class UserController {
 
     @Autowired
@@ -23,24 +25,22 @@ public class UserController {
 
     private ResultInfo info;
 
-    private String json;
 
     @RequestMapping("/regist")
-    public void Regist(HttpSession session, HttpServletResponse resp, String check,User user) throws IOException {
+    public ResultInfo Regist(HttpSession session, HttpServletResponse resp, String check,User user) throws IOException {
 
-
-        resp.setContentType("application/json;charset=utf-8");
         //校验验证码
-        if (!ckeckCKCode(session,resp,check)) return;
+        if (!ckeckCKCode(session,resp,check)){
+            info = ServletUtil.getInfo(false,null,ErrorMsgHouse.ckCodeErrorMsg);
+            return info;
+        }
 
         if (service.UserRegist(user)) {
             info = ServletUtil.getInfo(true,null,"");
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
+            return info;
         }else {
             info = ServletUtil.getInfo(false,null, ErrorMsgHouse.nameExistMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
+            return info;
         }
     }
 
@@ -67,40 +67,32 @@ public class UserController {
      * 4、响应到首页
      */
     @RequestMapping("/login")
-    public void login(User user,String check,String auto_login,HttpServletResponse resp,HttpSession session) throws IOException {
+    public ResultInfo login(User user,String check,String auto_login,HttpServletResponse resp,HttpSession session) throws IOException {
 
         resp.setContentType("application/json;charset=utf-8");
 
-        if (!ckeckCKCode(session,resp,check)) return;
+        if (!ckeckCKCode(session,resp,check)) {
+            info = ServletUtil.getInfo(false,null,ErrorMsgHouse.ckCodeErrorMsg);
+            return info;
+        }
 
         if (!service.userExist(user.getUsername())) {
             info = ServletUtil.getInfo(false,null,ErrorMsgHouse.noRegistErrorMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
-            return;
+           return info;
         }
 
         if (!service.userIsActive(user.getUsername())){
             info = ServletUtil.getInfo(false,null,ErrorMsgHouse.noActiveErrorMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
-            return;
+            return info;
         }
 
         User userLogin = service.userLogin(user);
 
         if (userLogin == null) {
             info = ServletUtil.getInfo(false,null,ErrorMsgHouse.loginErrorMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
-            return;
-        }else {
-
-            info = ServletUtil.getInfo(true,null,"");
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
-
+            return info;
         }
+
 
         //判断用户是否允许自动登陆
         if (auto_login != null && !"".equals(auto_login)){
@@ -115,7 +107,8 @@ public class UserController {
             session.setAttribute("autoLogin",false);
         }
 
-
+        info = ServletUtil.getInfo(true,null,"");
+        return info;
 
     }
 
@@ -126,41 +119,37 @@ public class UserController {
      * @throws IOException
      */
     @RequestMapping("/autoLogin")
-    public void autoLogin(HttpSession session,HttpServletResponse resp) throws IOException {
+    public ResultInfo autoLogin(HttpSession session,HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json;charset=utf-8");
 
-        if (session.getAttribute("user") == null) return;
+        if (session.getAttribute("user") == null) return null;
 
-        if (!(Boolean) session.getAttribute("autoLogin")) return;
+        if (!(Boolean) session.getAttribute("autoLogin")) return null;
 
         info = ServletUtil.getInfo(true,null,"");
 
-        json = ServletUtil.getJson(info);
-
-        resp.getWriter().write(json);
+        return info;
 
     }
 
     @RequestMapping("/welTip")
-    public void weiTip(HttpSession session,HttpServletResponse resp) throws IOException {
+    public ResultInfo weiTip(HttpSession session,HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json;charset=utf-8");
 
         User user = (User) session.getAttribute("user");
 
-        if (user == null) return;
+        if (user == null) return null;
 
         info = ServletUtil.getInfo(true,user.getName(),"");
 
-        json = ServletUtil.getJson(info);
-
-        resp.getWriter().write(json);
+        return info;
 
     }
 
     @RequestMapping("/exit")
-    public void exit(HttpSession session,HttpServletResponse resp) throws IOException {
+    public ResultInfo exit(HttpSession session,HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json;charset=utf-8");
 
         session.removeAttribute("user");
@@ -169,9 +158,7 @@ public class UserController {
 
         info = ServletUtil.getInfo(true,null,"");
 
-        json = ServletUtil.getJson(info);
-
-        resp.getWriter().write(json);
+        return info;
 
     }
 
@@ -179,24 +166,18 @@ public class UserController {
         //验证码校验
         String checkcode_server = (String)session.getAttribute("CHECKCODE_SERVER");
         session.removeAttribute("CHECKCODE_SERVER");
-        if (checkcode_server == null){
-            info = ServletUtil.getInfo(false,null, ErrorMsgHouse.ckCodeInvalidMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
+        if (checkcode_server == null)
+
             return false;
-        }
-        if (check == null || "".equals(check)){
-            info = ServletUtil.getInfo(false,null, ErrorMsgHouse.ckCodeIsNullMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
+
+        if (check == null || "".equals(check))
+
             return false;
-        }
-        if (!check.equalsIgnoreCase(checkcode_server)){
-            info = ServletUtil.getInfo(false,null, ErrorMsgHouse.ckCodeErrorMsg);
-            json = ServletUtil.getJson(info);
-            resp.getWriter().write(json);
+
+        if (!check.equalsIgnoreCase(checkcode_server))
+
             return false;
-        }
+
         return true;
     }
 

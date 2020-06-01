@@ -24,7 +24,7 @@ public class RouteServiceImpl implements RouteService {
         if (cid == null || pageSize == null || currentPage == null)
             throw new RuntimeException("传入参数不能为空");
         //封装总记录数
-        Long count = mapper.findCount(cid,"%"+rname+"%");
+        Long count = mapper.findCount(cid,rname);
 
         if (count == null) return null;
 
@@ -33,7 +33,7 @@ public class RouteServiceImpl implements RouteService {
         //封装数据
         Integer start = (currentPage-1)*pageSize;
 
-        List<Route> allByCid = mapper.findAllByCid(cid, start, pageSize,"%"+rname+"%");
+        List<Route> allByCid = mapper.findAllByCid(cid, start, pageSize,rname);
 
         if (allByCid == null || allByCid.size() == 0) return null;
 
@@ -50,5 +50,10 @@ public class RouteServiceImpl implements RouteService {
 
 
         return pageBean;
+    }
+
+    @Override
+    public Route findDetial(Integer rid) {
+        return mapper.findOneByRid(rid);
     }
 }

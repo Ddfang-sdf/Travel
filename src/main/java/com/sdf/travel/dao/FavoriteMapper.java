@@ -1,31 +1,18 @@
 package com.sdf.travel.dao;
 
+
 import com.sdf.travel.domain.Favorite;
-import com.sdf.travel.domain.FavoriteExample;
-import com.sdf.travel.domain.FavoriteKey;
-import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface FavoriteMapper {
-    long countByExample(FavoriteExample example);
 
-    int deleteByExample(FavoriteExample example);
+    @Select("select * from tab_favorite where rid = #{rid} and uid = #{uid}")
+    Favorite findByRidAndUid(@Param("rid") Integer rid, @Param("uid") Integer uid);
 
-    int deleteByPrimaryKey(FavoriteKey key);
-
-    int insert(Favorite record);
-
-    int insertSelective(Favorite record);
-
-    List<Favorite> selectByExample(FavoriteExample example);
-
-    Favorite selectByPrimaryKey(FavoriteKey key);
-
-    int updateByExampleSelective(@Param("record") Favorite record, @Param("example") FavoriteExample example);
-
-    int updateByExample(@Param("record") Favorite record, @Param("example") FavoriteExample example);
-
-    int updateByPrimaryKeySelective(Favorite record);
-
-    int updateByPrimaryKey(Favorite record);
+    @Insert("insert into tab_favorite values(#{rid},now(),#{uid})")
+    Boolean addFavorite(@Param("rid") Integer rid,@Param("uid") Integer uid);
 }

@@ -1,6 +1,11 @@
 package com.sdf.travel.domain;
 
-public class RouteImg {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
+@JsonIgnoreProperties(value = { "handler" })
+public class RouteImg implements Serializable {
     private Integer rgid;
 
     private Integer rid;
@@ -8,6 +13,16 @@ public class RouteImg {
     private String bigpic;
 
     private String smallpic;
+
+    @Override
+    public String toString() {
+        return "RouteImg{" +
+                "rgid=" + rgid +
+                ", rid=" + rid +
+                ", bigpic='" + bigpic + '\'' +
+                ", smallpic='" + smallpic + '\'' +
+                '}';
+    }
 
     public Integer getRgid() {
         return rgid;

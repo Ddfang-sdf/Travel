@@ -20,6 +20,8 @@ public class ErrorMsgHouse {
 
     public static final String noActiveErrorMsg = "您还未激活，请先激活！";
 
+    public static final String serverBusyErrorMsg = "服务器繁忙，请稍后重试！";
+
 
 
 }

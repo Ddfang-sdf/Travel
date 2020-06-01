@@ -1,6 +1,11 @@
 package com.sdf.travel.domain;
 
-public class Seller {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
+@JsonIgnoreProperties(value = { "handler" })
+public class Seller implements Serializable {
     private Integer sid;
 
     private String sname;
@@ -8,6 +13,16 @@ public class Seller {
     private String consphone;
 
     private String address;
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "sid=" + sid +
+                ", sname='" + sname + '\'' +
+                ", consphone='" + consphone + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 
     public Integer getSid() {
         return sid;
