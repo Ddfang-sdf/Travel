@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/route")
-@ResponseBody
+
 public class RouteController {
 
     @Autowired
@@ -37,6 +37,7 @@ public class RouteController {
      * @param pageSize
      * @param cid
      */
+    @ResponseBody
     @RequestMapping("/pageQuery")
     public PageBean<Route> pageQuery(Integer currentPage,Integer pageSize,Integer cid,String rname) throws IOException {
 
@@ -61,7 +62,7 @@ public class RouteController {
 
 
     }
-
+    @ResponseBody
     @RequestMapping("/detialQuery")
     public Route findDetial(Integer rid) throws IOException {
 
@@ -78,6 +79,7 @@ public class RouteController {
      * 判断用户是否收藏线路
      * @param rid
      */
+    @ResponseBody
     @RequestMapping("isFavorite")
     public Boolean isFavorite(Integer rid, HttpSession session) throws IOException {
 

@@ -17,7 +17,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
-@ResponseBody
+
 public class UserController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class UserController {
 
     private ResultInfo info;
 
-
+    @ResponseBody
     @RequestMapping("/regist")
     public ResultInfo Regist(HttpSession session, HttpServletResponse resp, String check,User user) throws IOException {
 
@@ -43,7 +43,7 @@ public class UserController {
             return info;
         }
     }
-
+    @ResponseBody
     @RequestMapping("/active")
     public void active(HttpServletRequest req,HttpServletResponse resp, String code) throws IOException {
 
@@ -66,6 +66,7 @@ public class UserController {
      * 3、保存用户session
      * 4、响应到首页
      */
+    @ResponseBody
     @RequestMapping("/login")
     public ResultInfo login(User user,String check,String auto_login,HttpServletResponse resp,HttpSession session) throws IOException {
 
@@ -118,6 +119,7 @@ public class UserController {
      * @param resp
      * @throws IOException
      */
+    @ResponseBody
     @RequestMapping("/autoLogin")
     public ResultInfo autoLogin(HttpSession session,HttpServletResponse resp) throws IOException {
 
@@ -132,7 +134,7 @@ public class UserController {
         return info;
 
     }
-
+    @ResponseBody
     @RequestMapping("/welTip")
     public ResultInfo weiTip(HttpSession session,HttpServletResponse resp) throws IOException {
 
@@ -147,7 +149,7 @@ public class UserController {
         return info;
 
     }
-
+    @ResponseBody
     @RequestMapping("/exit")
     public ResultInfo exit(HttpSession session,HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json;charset=utf-8");

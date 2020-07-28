@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--导入jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        /*
+        注册表单校验：
+        用户名：4到20个字符^\w{4,20}$
+        密码：3到20个字符或数字^\w{6,10}$
+        Email：^\w+@\w+\.\w+$
+        真实姓名：^\w+$
+        手机号：^1[3456789]\d{9}$
+        出生日期：非空
+        验证码：非空
+
+         */
+        //校验用户名
+        function ck_username() {
+            var regex = /^\w{3,20}$/;
+
+            if (regex.test($("#username").val())) {
+                //返回之前还原输入框样式
+                $("#username").css("border", "");
+                return true;
+            } else {
+                $("#username").css("border", "2px solid red");
+                return false;
+            }
+        }
+
+        //校验密码
+        function ck_passwd() {
+            var regex = /^\w{6,10}$/;
+            if (regex.test($("#passwd").val())) {
+                //返回之前还原输入框样式
+                $("#passwd").css("border", "");
+                return true;
+            } else {
+                $("#passwd").css("border", "2px solid red");
+                return false;
+            }
+        }
+
+        //校验邮箱
+        function ck_email() {
+            var regex = /^\w+@\w+\.\w+$/;
+            if (regex.test($("#email").val())) {
+                //返回之前还原输入框样式
+                $("#email").css("border", "");
+                return true;
+            } else {
+                $("#email").css("border", "2px solid red");
+                return false;
+            }
+        }
+
+        //校验真实姓名
+        function ck_name() {
+            var regex = /^[\u4e00-\u9fa5·0-9A-z]{2,10}$/;
+            if (regex.test($("#name").val())) {
+                //返回之前还原输入框样式
+                $("#name").css("border", "");
+                return true;
+            } else {
+                $("#name").css("border", "2px solid red");
+                return false;
+            }
+        }
+
+        //校验手机号
+        function ck_telephone() {
+            var regex = /^1[3456789]\d{9}$/;
+            if (regex.test($("#telephone").val())) {
+                //返回之前还原输入框样式
+                $("#telephone").css("border", "");
+                return true;
+            } else {
+                $("#telephone").css("border", "2px solid red");
+                return false;
+            }
+        }
+
+        //校验出生日期
+        function ck_birthday() {
+            if ($("#birthday").val() == null || $("#birthday").val() == "") {
+                $("#birthday").css("border", "2px solid red");
+                return false;
+            } else {
+                //返回之前还原输入框样式
+                $("#birthday").css("border", "");
+                return true;
+            }
+        }
+
+        //校验验证码
+        function ck_check() {
+            if ($("#check").val() == null || $("#check").val() == "") {
+                $("#check").css("border", "2px solid red");
+                return false;
+            } else {
+                //返回之前还原输入框样式
+                $("#check").css("border", "");
+                return true;
+            }
+        }
+
+
+        //定义JQuery入口函数
+        $(function () {
+            //给表单绑定提交事件
+            $("#registerForm").submit(function () {
+               // alert($("#registerForm").serialize())
+                //使用异步提交的方式提交数据,三个参数，第一个是接受数据的url，第二个是要提交的数据，第三个是回掉函数
+                /*
+                $()。serialize()函数用来将表单数据封装成键值对形式的字符串。
+                */
+                if (ck_username() && ck_passwd() && ck_email() && ck_name() && ck_telephone()
+                    && ck_birthday() && ck_check())
+                    $.post("user/regist", $(this).serialize(), function (data) {
+                        //处理服务器相应的数据
+                        if (data.flag){
+                            //注册成功了
+                            location.href="/travel/register_ok.html";
+                        }else {
+                            //注册失败了
+                            $("#tip").css("color","red");
+                            $("#tip").html(data.errorMsg);
+
+                        }
+
+                    });
+                /* ;*/
+                return false;
+            });
+            //为各个输入框绑定离焦事件
+            $("#username").blur(ck_username);
+            $("#passwd").blur(ck_passwd);
+            $("#email").blur(ck_email);
+            $("#name").blur(ck_name);
+            $("#telephone").blur(ck_telephone);
+            $("#birthday").blur(ck_birthday);
+            $("#check").blur(ck_check);
+
+        })
+    </script>
+    <style>
+        .tip{
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<!-- 头部 end -->
+<div class="rg_layout">
+    <div class="rg_form clearfix">
+        <div class="rg_form_left">
+            <p>新用户注册</p>
+            <p>USER REGISTER</p>
+        </div>
+
+        <div class="rg_form_center">
+        <div class="tip" ><span id="tip"></span></div>
+            <!--注册表单-->
+            <form id="registerForm">
+                <!--提交处理请求的标识符-->
+                <input type="hidden" name="action" value="register">
+                <table style="margin-top: 25px;">
+                    <tr>
+                        <td class="td_left">
+                            <label for="username">用户名</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="username" name="username" placeholder="请输入账号">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="passwd">密码</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="passwd" name="password" placeholder="请输入密码">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="email">Email</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="email" name="email" placeholder="请输入Email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="name">姓名</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="name" name="name" placeholder="请输入真实姓名">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="telephone">手机号</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="telephone" name="telephone" placeholder="请输入您的手机号">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="sex">性别</label>
+                        </td>
+                        <td class="td_right gender">
+                            <input type="radio" id="sex" name="sex" value="男" checked> 男
+                            <input type="radio" name="sex" value="女"> 女
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="birthday">出生日期</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="date" id="birthday" name="birthday" placeholder="年/月/日">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            <label for="check">验证码</label>
+                        </td>
+                        <td class="td_right check">
+                            <input type="text" id="check" name="check" class="check">
+                            <img src="checkCode" height="32px" alt="" onclick="changeCheckCode(this)">
+                            <script type="text/javascript">
+                                //图片点击事件
+                                function changeCheckCode(img) {
+                                    img.src = "checkCode?" + new Date().getTime();
+                                }
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                        </td>
+                        <td class="td_right check">
+                            <input type="submit" class="submit" value="注册">
+                            <span id="msg" style="color: red;"></span>
+                        </td>
+
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+        <div class="rg_form_right">
+            <p>
+                已有账号？
+                <a href="#">立即登录</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!--引入尾部-->
+<div id="footer">
+
+</div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+
+</body>
+</html>

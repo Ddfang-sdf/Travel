@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdf.travel.dao.UserMapper">
+
+    <resultMap id="user" type="com.sdf.travel.domain.User">
+        <id property="uid" column="uid"/>
+        <result property="username" column="username"/>
+        <result property="name" column="name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="telephone" column="telephone"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status"/>
+        <result property="code" column="code"/>
+    </resultMap>
+    <!--User findUserByUsername(String username);-->
+    <select id="findUserByUsername" resultMap="user">
+        select * from tab_user
+        <where>
+            username = #{username}
+        </where>
+    </select>
+
+    <!-- Boolean InsertUserByUser(User user);-->
+    <insert id="InsertUserByUser">
+        insert into tab_user
+        values (null,#{username},#{password},#{name},
+                #{birthday},#{sex},#{telephone},#{email},
+                'N',#{code}
+                )
+    </insert>
+</mapper>

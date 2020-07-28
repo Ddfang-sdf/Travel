@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdf.travel.dao.RouteMapper">
+
+    <!--Long findCount(Integer cid);-->
+    <select id="findCount" resultType="java.lang.Long">
+        select count(*) from tab_route
+        <where>
+            <if test="cid!=null ">
+                and cid = #{cid}
+            </if>
+            <if test="rname!=null and rname!=''">
+                and rname like concat('%',#{rname},'%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="route" type="com.sdf.travel.domain.Route"/>
+
+
+
+    <!--List<Route> findAllByCid(@Param("cid") Integer cid,@Param("start") Integer start,@Param("pageSize") Integer pageSize);-->
+    <select id="findAllByCid" resultMap="route">
+        select * from tab_route
+        <where>
+            and cid = #{cid}
+            <if test="rname!=null and rname!=''">
+                and rname like concat('%',#{rname},'%')
+            </if>
+            limit #{start} , #{pageSize}
+        </where>
+    </select>
+
+    <resultMap id="BaseResultMap" type="com.sdf.travel.domain.Route">
+        <id column="rid" jdbcType="INTEGER" property="rid" />
+        <result column="rname" jdbcType="VARCHAR" property="rname" />
+        <result column="price" jdbcType="DOUBLE" property="price" />
+        <result column="routeIntroduce" jdbcType="VARCHAR" property="routeintroduce" />
+        <result column="rflag" jdbcType="CHAR" property="rflag" />
+        <result column="rdate" jdbcType="VARCHAR" property="rdate" />
+        <result column="isThemeTour" jdbcType="CHAR" property="isthemetour" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+        <result column="cid" jdbcType="INTEGER" property="cid" />
+        <result column="rimage" jdbcType="VARCHAR" property="rimage" />
+        <result column="sid" jdbcType="INTEGER" property="sid" />
+        <result column="sourceId" jdbcType="VARCHAR" property="sourceid" />
+        <association property="seller" column="sid" select="findSeller">
+            <id column="sid" jdbcType="INTEGER" property="sid"/>
+            <result column="sname" jdbcType="VARCHAR" property="sname" />
+            <result column="consphone" jdbcType="VARCHAR" property="consphone" />
+            <result column="address" jdbcType="VARCHAR" property="address" />
+        </association>
+        <collection property="routeImgs" column="rid" select="findRouteImgs">
+            <id column="rgid" jdbcType="INTEGER" property="rgid" />
+            <result column="rid" jdbcType="INTEGER" property="rid" />
+            <result column="bigPic" jdbcType="VARCHAR" property="bigpic" />
+            <result column="smallPic" jdbcType="VARCHAR" property="smallpic" />
+        </collection>
+    </resultMap>
+    <resultMap id="seller" type="com.sdf.travel.domain.Seller"/>
+    <select id="findSeller" resultMap="seller">
+        select * from tab_seller where sid = #{sid}
+    </select>
+    <resultMap id="routeImg" type="com.sdf.travel.domain.RouteImg"/>
+    <select id="findRouteImgs" resultMap="routeImg">
+        select * from tab_route_img where rid = #{rid}
+    </select>
+    <!--Route findOneByRid(Integer rid);-->
+    <select id="findOneByRid" resultMap="BaseResultMap">
+        select * from tab_route
+        <where>
+            rid = #{rid}
+        </where>
+    </select>
+
+    <!--Boolean updateCountByRid(Integer rid);-->
+    <update id="updateCountByRid">
+        update tab_route
+        <set>
+            count = count + 1
+        </set>
+        <where>
+            rid = #{rid}
+        </where>
+    </update>
+</mapper>

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@ResponseBody
 @RequestMapping("/category")
 public class CategoryController {
 
@@ -24,7 +23,7 @@ public class CategoryController {
     private ResultInfo info;
 
     private String json;
-
+    @ResponseBody
     @RequestMapping("/findAll")
     public List<Category> findAll(HttpServletResponse resp) throws IOException {
 

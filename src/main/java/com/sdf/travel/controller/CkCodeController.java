@@ -2,6 +2,7 @@ package com.sdf.travel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import java.util.Random;
 @Controller
 public class CkCodeController {
     @RequestMapping("/checkCode")
+    @ResponseBody
     public void CheckCode(HttpServletRequest req, HttpServletResponse resp)throws  IOException {
         //服务器通知浏览器不要缓存
         resp.setHeader("pragma","no-cache");

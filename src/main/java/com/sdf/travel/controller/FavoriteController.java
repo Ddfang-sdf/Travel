@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 @Controller
 @RequestMapping("/favorite")
-@ResponseBody
+
 public class FavoriteController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class FavoriteController {
 
     private String json;
 
-
+    @ResponseBody
     @RequestMapping("/add")
     public ResultInfo add(Integer rid, HttpSession session, HttpServletResponse resp) throws IOException {
 
